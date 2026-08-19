@@ -34,7 +34,7 @@ def main_menu(inventory):
         print("4. Display Book Inventory")
         print("5. Exit")
 
-        option = input("\n Please enter your choice (1-5): ")
+        option = input("\n Please enter your choice (1-5): ").strip()
 
         # Call add_new_book(inventory) function if the user selects option 1
         if option == '1':
@@ -114,13 +114,12 @@ def add_new_book(inventory):
             # Prompt user to enter the number of copies of the book removing any leading or trailing whitespace from the input
             copies = int(input("Enter the number of copies: ").strip())
 
-            # Validate the input is not empty
-            if copies == "":
-                print("Number of copies cannot be empty. Please enter a valid number.")
-
-            # Validate the input is a positive integer
-            elif not copies.isdigit() or int(copies) <= 0:
-                print("Number of copies must be a positive integer. Please enter a valid number.")
+            # Validate input is a positive integer
+            if copies <= 0:
+                print("Number of copies must be greater than zero. Please enter a valid number.")
+            else:
+                # Exit the loop if the input is valid
+                break
 
         # Display message if input is not a valid integer
         except ValueError:
@@ -202,6 +201,9 @@ def display_inventory(inventory):
         print("------------------------")
         for book in inventory:
             print(f"Title: {book['title']}, Author: {book['author']}, Copies Available: {book['copies']}")
+
+# Call the main_menu function to start the library management system
+main_menu(book_inventory)
 
 
 # REFERENCES
