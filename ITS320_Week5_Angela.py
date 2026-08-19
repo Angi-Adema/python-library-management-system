@@ -125,18 +125,18 @@ def add_new_book(inventory):
         except ValueError:
             print("Invalid input. Please enter a valid positive integer for the number of copies.")
 
-        # Create a dictionary for the new book
-        new_book = {
-            "title": title,
-            "author": author,
-            "copies": copies
-        }
+    # Create a dictionary for the new book
+    new_book = {
+        "title": title,
+        "author": author,
+        "copies": copies
+    }
 
-        # Append the new book dictionary to the inventory list
-        inventory.append(new_book)
+    # Append the new book dictionary to the inventory list
+    inventory.append(new_book)
 
-        # Display a message confirming the book has been added to the inventory
-        print(f"Book '{title}' by {author} has been added to the inventory.")
+    # Display a message confirming the book has been added to the inventory
+    print(f"Book '{title}' by {author} has been added to the inventory.")
 
 # Create a function to handle borrowing a book from the inventory
 def borrow_book(inventory):
