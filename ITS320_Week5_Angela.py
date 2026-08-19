@@ -168,6 +168,41 @@ def borrow_book(inventory):
             # Display a message indicating that the book was not found in the inventory
             print(f"Sorry, '{title}' is not available in the inventory.")
 
+# Create a function to handle returning a book
+def return_book(inventory):
+    # Prompt the user to enter the title of the book they wish to return removing any leading or trailing whitespace from the input
+    title = input("Enter the title of the book you want to return: ").strip()
+
+    # Validate the input was not empty
+    if title == "":
+        print("Book title cannot be empty. Please enter a valid title.")
+    else:
+        # Call the book_search function to check if the book exists in the inventory
+        book = book_search(inventory, title)
+
+        # If the book is found in the inventory
+        if book is not None:
+            # Increase the number of copies by 1
+            book["copies"] += 1
+
+            # Display a message confirming the book has been returned
+            print(f"You have successfully returned '{book['title']}' by {book['author']}.")
+        else:
+            # Display a message indicating that the book was not found in the inventory
+            print(f"Sorry, '{title}' is not recognized in our inventory. Please check the title and try again.")
+
+# Create a function to display the current book inventory
+def display_inventory(inventory):
+    # Check if the inventory is empty
+    if not inventory:
+        print("The book inventory is currently empty.")
+    else:
+        # Display the book inventory in a formatted manner
+        print("\nCurrent Book Inventory:")
+        print("------------------------")
+        for book in inventory:
+            print(f"Title: {book['title']}, Author: {book['author']}, Copies Available: {book['copies']}")
+
 
 # REFERENCES
 #
