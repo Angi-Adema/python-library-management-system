@@ -168,6 +168,9 @@ def borrow_book(inventory):
                 # Display a message indicating that the book was not found in the inventory
                 print(f"\nSorry, '{title}' is not available in the inventory.")
 
+            # Exit the loop after processing a nonempty title
+            break
+
 # Create a function to handle returning a book
 def return_book(inventory):
     # Prompt the user to enter the title of the book they wish to return removing any leading or trailing whitespace from the input
