@@ -2,10 +2,7 @@
 # number of copies, managing the process of borrowing a book, returning borrowed books, and 
 # displaying book inventory.
 
-# Create a list to store dictionaries of books
-from random import choice
-
-
+# Create a list to store dictionaries of books and their title, author, and number of copies
 book_inventory = [
     # Store a few books to establish the initial inventory
     {
@@ -26,7 +23,7 @@ book_inventory = [
 ]
 
 # Create a function for the main menu of the library management system including a menu prompt
-# and passing in the book inventory as a parameter to be utilized by the function called within the main menu function.
+# and passing in the book inventory as a parameter to be utilized by the functions called within the main menu function.
 def main_menu(inventory):
     while True:
         print("\n    Library Management System    ")
@@ -39,19 +36,19 @@ def main_menu(inventory):
 
         option = input("\n Please enter your choice (1-5): ")
 
-        # Call add_new_book() function if the user selects option 1
+        # Call add_new_book(inventory) function if the user selects option 1
         if option == '1':
             add_new_book(inventory)
 
-        # Call borrow_book() function if the user selects option 2
+        # Call borrow_book(inventory) function if the user selects option 2
         elif option == '2':
             borrow_book(inventory)
 
-        # Call return_book() function if the user selects option 3
+        # Call return_book(inventory) function if the user selects option 3
         elif option == '3':
             return_book(inventory)
 
-        # Call display_inventory() function if the user selects option 4
+        # Call display_inventory(inventory) function if the user selects option 4
         elif option == '4':
             display_inventory(inventory)
 
@@ -62,13 +59,129 @@ def main_menu(inventory):
         else:
             print("Invalid choice. Please try again.")
 
+# Search inventory and return book dictionary if found, otherwise return None
+def book_search(inventory, title):
+
+    # Loop through the book_inventory list to see if a book title exists
+    for book in inventory:
+
+        # Ensure the search is case-insensitive by converting both the book title and the search title to lowercase
+        if book["title"].lower() == title.lower():
+
+            # If book is found, return the book dictionary
+            return book
+
+    # Return None if the book does not exist in the inventory
+    return None
+
+# Create a function to add a new book to the inventory
+def add_new_book(inventory):
+    # Validate title input.
+    while True:
+        # Prompt user to enter the title of the book to be added to inventory removing any leading or trailing whitespace from the input
+        title = input("Please enter the book title: ").strip()
+
+        # Validate the input to ensure the title is not empty
+        if title == "":
+            print("Book title cannot be empty. Please enter a valid title.")
+        else:       
+            # Check to see if the title is already in the inventory by calling the book_search function
+            exists_in_inventory = book_search(inventory, title)
+
+            # If the book already exists in the inventory, request the user to enter a different title
+            if exists_in_inventory is not None:
+                print(f"The book '{title}' already exists in the inventory. Please enter a different title.")
+            else:
+                # If the title is valid and does not already exist in the inventory, break out of the loop
+                break
+
+    # Validate author input.
+    while True:
+        # Prompt user to enter the author's name removing any leading or trailing whitespace from the input   
+        author = input("Enter the book author: ").strip()
+
+        # Validate the input to ensure the author's name is not empty
+        if author == "":
+            print("Author name cannot be empty. Please enter a valid author name.")
+        else:
+            # If the author's name is valid, break out of the loop
+            break
+
+    # Validate copies input.
+    while True:
+        # Utilize try-except for validation
+        try:
+            # Prompt user to enter the number of copies of the book removing any leading or trailing whitespace from the input
+            copies = int(input("Enter the number of copies: ").strip())
+
+            # Validate the input is not empty
+            if copies == "":
+                print("Number of copies cannot be empty. Please enter a valid number.")
+
+            # Validate the input is a positive integer
+            elif not copies.isdigit() or int(copies) <= 0:
+                print("Number of copies must be a positive integer. Please enter a valid number.")
+
+        # Display message if input is not a valid integer
+        except ValueError:
+            print("Invalid input. Please enter a valid positive integer for the number of copies.")
+
+        # Create a dictionary for the new book
+        new_book = {
+            "title": title,
+            "author": author,
+            "copies": copies
+        }
+
+        # Append the new book dictionary to the inventory list
+        inventory.append(new_book)
+
+        # Display a message confirming the book has been added to the inventory
+        print(f"Book '{title}' by {author} has been added to the inventory.")
+
+# Create a function to handle borrowing a book from the inventory
+def borrow_book(inventory):
+
+    # Prompt the user to enter the title of the book they wish to borrow removing any leading or trailing whitespace from the input
+    title = input("Enter the title of the book you want to borrow: ").strip()
+
+    # Validate the input was not empty
+    if title == "":
+        print("Book title cannot be empty. Please enter a valid title.")
+    else:
+        # Call the book_search function to check if the book exists in the inventory
+        book = book_search(inventory, title)
+
+        # If the book is found in the inventory
+        if book is not None:
+            # Check if there are copies available to borrow
+            if book["copies"] > 0:
+                # Decrease the number of copies by 1
+                book["copies"] -= 1
+
+                # Display a message confirming the book has been borrowed
+                print(f"You have successfully borrowed '{book['title']}' by {book['author']}.")
+            else:
+                # Display a message indicating that there are no copies available to borrow
+                print(f"Sorry, '{book['title']}' by {book['author']} is currently out of stock.")
+        else:
+            # Display a message indicating that the book was not found in the inventory
+            print(f"Sorry, '{title}' is not available in the inventory.")
+
 
 # REFERENCES
 #
 # 1. GeeksforGeeks. (2025, July 23). "How to create list of dictionary in Python". 
 #    https://www.geeksforgeeks.org/python/how-to-create-list-of-dictionary-in-python/
-# 2. Miller, B. (n.d.). "Programming in Python 3" zyBooks, a Wiley Brand.
+# 2. GeeksforGeeks. (2025, July 11). "Remove spaces from a string in Python". 
+#    https://www.geeksforgeeks.org/python/python-remove-spaces-from-a-string/
+# 3. GeeksforGeeks. (2026, May 29). "Python Exception Handling".
+#    https://www.geeksforgeeks.org/python/python-exception-handling/
+# 4. GeeksforGeeks. (2025, July 26). "Parentheses, Square Brackets and Curly Braces in Python".
+#    https://www.geeksforgeeks.org/python/parentheses-square-brackets-and-curly-braces-in-python/
+# 5. Miller, B. (n.d.). "Programming in Python 3" zyBooks, a Wiley Brand.
 #    Canvas https://www.zybooks.com/
+
 
 
 
