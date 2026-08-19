@@ -34,7 +34,7 @@ def main_menu(inventory):
         print("4. Display Book Inventory")
         print("5. Exit")
 
-        option = input("\n Please enter your choice (1-5): ").strip()
+        option = input("\nPlease enter your choice (1-5): ").strip()
 
         # Call add_new_book(inventory) function if the user selects option 1
         if option == '1':
